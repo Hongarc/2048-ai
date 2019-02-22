@@ -1,4 +1,4 @@
-import urllib, urllib2, json, threading, itertools
+import urllib.request, urllib.parse, urllib.error, urllib.request, urllib.error, urllib.parse, json, threading, itertools
 
 try:
     import websocket
@@ -15,22 +15,22 @@ class ChromeDebuggerControl(object):
                                       "Please install it (pip install websocket-client) then try again.")
 
         # Obtain the list of pages
-        pages = json.loads(urllib2.urlopen('http://localhost:%d/json/list' % port).read())
+        pages = json.loads(urllib.request.urlopen('http://localhost:%d/json/list' % port).read())
         if len(pages) == 0:
             raise Exception("No pages to attach to!")
         elif len(pages) == 1:
             page = pages[0]
         else:
-            print "Select a page to attach to:"
+            print("Select a page to attach to:")
             for i, page in enumerate(pages):
-                print "%d) %s" % (i+1, page['title'].encode('unicode_escape'))
+                print("%d) %s" % (i+1, page['title'].encode('unicode_escape')))
             while 1:
                 try:
-                    pageidx = int(raw_input("Selection? "))
+                    pageidx = int(input("Selection? "))
                     page = pages[pageidx-1]
                     break
-                except Exception, e:
-                    print "Invalid selection:", e
+                except Exception as e:
+                    print("Invalid selection:", e)
 
         # Configure debugging websocket
         wsurl = page['webSocketDebuggerUrl']
@@ -84,7 +84,7 @@ class ChromeDebuggerControl(object):
         resp = self.results.pop(id)
         if 'error' in resp:
             raise Exception("Command %s(%s) failed: %s (%d)" % (
-                method, ', '.join('%s=%r' % (k,v) for k,v in params.iteritems()), resp['error']['message'], resp['error']['code']))
+                method, ', '.join('%s=%r' % (k,v) for k,v in params.items()), resp['error']['message'], resp['error']['code']))
         return resp['result']
 
     def execute(self, cmd):

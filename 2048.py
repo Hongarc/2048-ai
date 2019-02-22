@@ -3,7 +3,7 @@
 
 ''' Help the user achieve a high score in a real game of 2048 by using a move searcher. '''
 
-from __future__ import print_function
+
 import ctypes
 import time
 import os
